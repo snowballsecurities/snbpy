@@ -1,0 +1,2 @@
+class LocalCache(object):
+    pass
