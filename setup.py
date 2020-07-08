@@ -46,9 +46,9 @@ setup(
     install_requires=['requests'],
     py_modules=['snbpy'],
     project_urls={
-        'Bug Reports': 'http://www.snowballsecurities.com',
-        'Funding': 'http://www.snowballsecurities.com',
-        'Say Thanks!': 'http://www.snowballsecurities.com',
-        'Source': 'http://www.snowballsecurities.com',
+        'Bug Reports': 'https://github.com/snowballsecurities/snbpy/issues',
+        'Funding': 'https://www.snowballsecurities.com',
+        'Say Thanks!': 'https://www.snowballsecurities.com',
+        'Source': 'https://github.com/snowballsecurities/snbpy',
     },
 )
