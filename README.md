@@ -179,7 +179,6 @@ token是一串无序加密的字符串，形如: `pwQxtqj3Bl1q3ThX3I5rRJyUyQxffW
 | 名称  | 描述               |
 | ----- | ------------------ |
 | STK   | 股票               |
-| CS    | 股票               |
 | FUT   | 期货               |
 | OPT   | 期权               |
 | FOP   | 期货期权           |
