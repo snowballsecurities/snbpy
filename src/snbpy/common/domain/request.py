@@ -1,8 +1,11 @@
 import abc
+import logging
 
+from snbpy.common.constant.exceptions import InvalidParamException, INVALID_ORDER_ID
 from snbpy.common.constant.snb_constant import HttpMethod, OrderSide, SecurityType, OrderType, Currency, TimeInForce
 from snbpy.common.util.string_utils import StringUtils
 
+logger = logging.getLogger("snbpy")
 
 class HttpRequest(metaclass=abc.ABCMeta):
 
@@ -163,7 +166,9 @@ class PlaceOrderRequest(HttpRequest):
         return 1
 
     def verify(self) -> bool:
-        # todo
+        if StringUtils.is_blank(self._order_id):
+            logger.error("order id cannot by blank;; order_id: %s", self._order_id)
+            raise InvalidParamException(INVALID_ORDER_ID, "INVALID ORDER ID")
         return StringUtils.is_none_blank(self._account_id, self._order_id)
 
     @property
