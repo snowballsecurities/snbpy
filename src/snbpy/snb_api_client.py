@@ -1,6 +1,7 @@
 # coding=utf-8
 import abc
 import json
+import logging
 import time
 
 import requests
@@ -15,17 +16,23 @@ from snbpy.common.domain.response import HttpResponse
 from snbpy.common.domain.snb_config import SnbConfig
 from snbpy.common.util.string_utils import StringUtils
 
+logger = logging.getLogger("snbpy")
+
 
 class SnbApiClient(metaclass=abc.ABCMeta):
     """
     API Client 框架
     """
+
     def __init__(self, config: SnbConfig, token: str = None, token_expire_time: int = 0):
+        logger.debug("init snb api client;; config: %s", config)
         config.verify()
+        logger.debug("config is legal")
         self._config = config
         self._token = token
         self._token_expire_time = token_expire_time
-        self._headers = {"User-Agent": "snbpy-%s" % API_VERSION,
+        self._headers = {"User-Agent": "snbpy/%s" % API_VERSION,
+                         "Accecpt": "Accept:application/vnd.snowx+json; version=1.0",
                          "Cache-Control": "no-cache",
                          "Connection": "Keep-Alive"}
 
@@ -77,7 +84,15 @@ class SnbApiClient(metaclass=abc.ABCMeta):
         pass
 
     def execute(self, request: HttpRequest) -> HttpResponse:
+        logger.debug("execute request;; request: %s; method: %s ;url: %s", request.__class__, request.method,
+                     request.url)
+        logger.debug("verify request;; request: %s; method: %s ;url: %s", request.__class__, request.method,
+                     request.url)
+        request.verify()
+        logger.debug("request verify passed;; request: %s; method: %s ;url: %s", request.__class__, request.method,
+                     request.url)
         headers = self._headers
+        logger.debug("send http request: %s", request)
         if request.auth() > 0 and (StringUtils.is_blank(self._token) or self._token_expire_time < time.time()):
             raise TokenInvalid(LOGIN_NEEDED, "login first")
         if request.auth() > 0:
@@ -86,6 +101,7 @@ class SnbApiClient(metaclass=abc.ABCMeta):
             response_str = self._do_execute(request.url, self._prepare_param(request), headers, self._config.timeout,
                                             request.method)
         except Exception as e:
+            logger.error("http excepiton;; %s", e)
             raise ApiExecuteException(API_EXCEPTION, "http exception" + str(e))
         return self._parse_response(response_str)
 
@@ -197,14 +213,16 @@ class SnbHttpClient(SnbApiClient, TradeInterface):
                 or 'result_data' not in dic:
             raise ApiExecuteException(API_EXCEPTION, 'response result invalid')
         response = HttpResponse()
-        response.data = dic['result_data']
-        response.result_code = dic['result_code']
-        response.message = StringUtils.default_string(dic['msg'])
+        response.data = dic.get('result_data')
+        response.result_code = dic.get('result_code')
+        response.message = StringUtils.default_string(dic.get('msg'))
         response.result_str = response_str
         return response
 
     def _do_execute(self, url: str, params: dict, header: dict, timeout: int, method: HttpMethod) -> str:
         request_path = "%s://%s:%s/%s" % (self._config.schema, self._config.snb_server, self._config.snb_port, url)
+        logger.debug("do execute;; url: %s, params: %s, header: %s, timeout: %s, method: %s", url, params, header,
+                     timeout, method)
 
         try:
             if method == HttpMethod.GET:
@@ -218,7 +236,7 @@ class SnbHttpClient(SnbApiClient, TradeInterface):
                     "utf-8")
 
         except Exception as e:
-            # todo
+            logger.error("do execute with exception;; %s", e)
             raise e
 
     def _prepare_param(self, request: HttpRequest) -> dict:
@@ -226,11 +244,14 @@ class SnbHttpClient(SnbApiClient, TradeInterface):
 
     def login(self) -> HttpResponse:
         login_request = AccessTokenRequest(self._config.account, self._config.key)
+        logger.debug("login request: %s", login_request)
         response = self.execute(login_request)
+        logger.debug("login result: %s", response)
         if not response.succeed():
+            logger.warning("login failed %s", response)
             raise ApiExecuteException(API_EXCEPTION, "login failed")
-        self._token = response.data['access_token']
-        self._token_expire_time = response.data['expiry_time']
+        self._token = response.data.get('access_token')
+        self._token_expire_time = response.data.get('expiry_time')
         return response
 
     def get_token_status(self) -> HttpResponse:

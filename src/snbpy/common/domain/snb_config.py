@@ -1,6 +1,10 @@
 # coding=utf-8
+import logging
+
 from snbpy.common.constant.exceptions import ConfigException, CONFIGURATION_IS_INVALID
 from snbpy.common.util.string_utils import StringUtils
+
+logger = logging.getLogger("snbpy")
 
 
 class SnbConfig(object):
@@ -16,6 +20,7 @@ class SnbConfig(object):
     schema	    API Http Schema
     auto_login	是否自动登陆	    暂不支持
     """
+
     def __init__(self):
         self._account = None
         self._key = None
@@ -30,9 +35,15 @@ class SnbConfig(object):
     def verify(self):
         if StringUtils.is_any_blank(self.account, self.key, self.sign_type, self.snb_server, self.snb_port,
                                     self._schema):
+            logger.error("configuration is invalid;; some necessary param is blank")
             raise ConfigException(CONFIGURATION_IS_INVALID, "configuration is invalid")
         if self.timeout <= 0:
+            logger.error("configuration is invalid;; timeout not set or invalid")
             raise ConfigException(CONFIGURATION_IS_INVALID, "configuration is invalid")
+
+    def __str__(self) -> str:
+        return "schema: %s. server: %s, port: %s, timeout: %s" % (
+            self.schema, self.snb_server, self.snb_port, self.timeout)
 
     @property
     def auto_login(self) -> bool:

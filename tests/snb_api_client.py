@@ -1,6 +1,7 @@
 import time
 from unittest import TestCase
 
+from snbpy.common.constant.exceptions import InvalidParamException, INVALID_ORDER_ID
 from snbpy.common.constant.snb_constant import SecurityType, OrderSide, Currency, OrderType, TimeInForce
 from snbpy.common.domain.snb_config import SnbConfig
 from snbpy.snb_api_client import SnbHttpClient
@@ -73,6 +74,14 @@ class TestArrayUtils(TestCase):
                                               100, 100.1, OrderType.LIMIT, TimeInForce.DAY, True)
         self.assertIsNotNone(place_order)
         self.assertTrue(place_order.succeed())
+
+    def test_invalid_order_id(self):
+        self.client.login()
+        with self.assertRaises(InvalidParamException) as context:
+            self.client.place_order("", SecurityType.STK, "00700", "HKEX", OrderSide.BUY, Currency.HKD,
+                                                  100, 100.1, OrderType.LIMIT, TimeInForce.DAY, True)
+            self.assertTrue(hasattr(context.exception, "code"))
+            self.assertTrue(INVALID_ORDER_ID in context.exception.code)
 
     def test_get_token_status(self):
         self.client.login()

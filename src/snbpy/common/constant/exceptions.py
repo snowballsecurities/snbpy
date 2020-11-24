@@ -5,6 +5,8 @@ API_EXCEPTION = '002001'
 TOKEN_INVALID = '002002'
 LOGIN_NEEDED = '002003'
 KEY_INVALID = '002004'
+INVALID_PARAM = '002005'
+INVALID_ORDER_ID = '002006'
 
 
 class SnbException(Exception):
@@ -22,4 +24,8 @@ class ApiExecuteException(SnbException):
 
 
 class TokenInvalid(SnbException):
+    pass
+
+
+class InvalidParamException(SnbException):
     pass
