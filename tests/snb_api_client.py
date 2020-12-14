@@ -1,3 +1,4 @@
+import logging
 import time
 from unittest import TestCase
 
@@ -6,6 +7,7 @@ from snbpy.common.constant.snb_constant import SecurityType, OrderSide, Currency
 from snbpy.common.domain.snb_config import SnbConfig
 from snbpy.snb_api_client import SnbHttpClient
 
+logging.basicConfig(level=logging.DEBUG)
 class TestArrayUtils(TestCase):
     def setUp(self) -> None:
         self.config = SnbConfig()
@@ -58,7 +60,7 @@ class TestArrayUtils(TestCase):
     def test_cancel_order(self):
         self.client.login()
         order_id = str(int(time.time()))
-        place_order = self.client.place_order(order_id, SecurityType.STK, "00700", "HKEX", OrderSide.BUY, Currency.HKD,
+        place_order = self.client.place_order(order_id, SecurityType.STK, "00700", "", OrderSide.BUY, Currency.HKD,
                                               100, 100.1, OrderType.LIMIT, TimeInForce.DAY, True)
         self.assertIsNotNone(place_order)
         self.assertTrue(place_order.succeed())
@@ -70,7 +72,7 @@ class TestArrayUtils(TestCase):
     def test_place_order(self):
         self.client.login()
         order_id = str(int(time.time()))
-        place_order = self.client.place_order(order_id, SecurityType.STK, "00700", "HKEX", OrderSide.BUY, Currency.HKD,
+        place_order = self.client.place_order(order_id, SecurityType.STK, "00700", "", OrderSide.BUY, Currency.HKD,
                                               100, 100.1, OrderType.LIMIT, TimeInForce.DAY, True)
         self.assertIsNotNone(place_order)
         self.assertTrue(place_order.succeed())
