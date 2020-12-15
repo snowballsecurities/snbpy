@@ -205,6 +205,10 @@ class TradeInterface(object):
 
 
 class SnbHttpClient(SnbApiClient, TradeInterface):
+    def __init__(self, config: SnbConfig):
+        self.session = requests.session()
+        super().__init__(config)
+
     def _parse_response(self, response_str: str) -> HttpResponse:
         dic = json.loads(response_str)
         # todo 自动踢出
@@ -226,13 +230,13 @@ class SnbHttpClient(SnbApiClient, TradeInterface):
 
         try:
             if method == HttpMethod.GET:
-                return requests.get(url=request_path, headers=header, params=params, timeout=timeout).content.decode(
+                return self.session.get(url=request_path, headers=header, params=params, timeout=timeout).content.decode(
                     "utf-8")
             elif method == HttpMethod.POST:
-                return requests.post(url=request_path, headers=header, data=params, timeout=timeout).content.decode(
+                return self.session.post(url=request_path, headers=header, data=params, timeout=timeout).content.decode(
                     "utf-8")
             elif method == HttpMethod.DELETE:
-                return requests.delete(url=request_path, headers=header, params=params, timeout=timeout).content.decode(
+                return self.session.delete(url=request_path, headers=header, params=params, timeout=timeout).content.decode(
                     "utf-8")
 
         except Exception as e:
