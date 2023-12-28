@@ -8,7 +8,7 @@ import requests
 
 from snbpy.common.constant.exceptions import ApiExecuteException, API_EXCEPTION, TokenInvalid, LOGIN_NEEDED
 from snbpy.common.constant.snb_constant import API_VERSION, HttpMethod, SecurityType, OrderSide, Currency, TimeInForce, \
-    OrderType
+    OrderType, OrderIdType
 from snbpy.common.domain.request import HttpRequest, AccessTokenRequest, GetOrderListRequest, GetPositionListRequest, \
     GetBalanceRequest, GetSecurityDetailRequest, GetOrderByOrderIdRequest, CancelOrderRequest, PlaceOrderRequest, \
     GetTokenStatusRequest, GetTransactionListRequest
@@ -163,7 +163,7 @@ class TradeInterface(object):
     def place_order(self, order_id: str, security_type: SecurityType, symbol: str, exchange: str,
                     side: OrderSide, currency: Currency, quantity: int, price: float = 0,
                     order_type: OrderType = OrderType.LIMIT, tif: TimeInForce = TimeInForce.DAY,
-                    force_only_rth: bool = True):
+                    force_only_rth: bool = True, stop_price: float = 0, parent: str = None, order_id_type: OrderIdType = OrderIdType.CLIENT):
         """下单
         :param order_id: 订单 ID
         :param security_type: 证券类型，参见数据字典：SecurityType
@@ -292,15 +292,15 @@ class SnbHttpClient(SnbApiClient, TradeInterface):
     def place_order(self, order_id: str, security_type: SecurityType, symbol: str, exchange: str,
                     side: OrderSide, currency: Currency, quantity: int, price: float = 0,
                     order_type: OrderType = OrderType.LIMIT, tif: TimeInForce = TimeInForce.DAY,
-                    force_only_rth: bool = True):
+                    force_only_rth: bool = True, stop_price: float = 0, parent: str = None, order_id_type: OrderIdType = OrderIdType.CLIENT):
         place_order_request = PlaceOrderRequest(self._config.account, order_id, security_type, symbol, exchange,
-                                                side, currency, quantity, price, order_type, tif, force_only_rth)
+                                                side, currency, quantity, price, order_type, tif, force_only_rth, stop_price, parent, order_id_type)
         response = self.execute(place_order_request)
         return response
 
-    def cancel_order(self, order_id: str, origin_order_id: str):
+    def cancel_order(self, order_id: str, origin_order_id: str, order_id_type: OrderIdType = OrderIdType.CLIENT):
         cancel_order_request = CancelOrderRequest(account_id=self._config.account, origin_order_id=origin_order_id,
-                                                  order_id=order_id)
+                                                  order_id=order_id, order_id_type=order_id_type)
         response = self.execute(cancel_order_request)
         return response
 

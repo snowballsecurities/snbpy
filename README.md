@@ -32,9 +32,9 @@
 
 ##### 测试仓库
 
-`pip install -i https://test.pypi.org/simple/ snbpy==1.0.0`
+`pip install -i https://test.pypi.org/simple/ snbpy==1.0.3`
 
-##### 正式仓库(暂未发布)
+##### 正式仓库(最新版本1.0.3)
 
 `pip install snbpy`
 

@@ -50,6 +50,8 @@ class OrderType(Enum):
     MARKET_ON_OPENING = 'MARKET_ON_OPENING'
     LIMIT_ON_CLOSE = 'LIMIT_ON_CLOSE'
     MARKET_ON_CLOSE = 'MARKET_ON_CLOSE'
+    LIMIT_IF_TOUCHED = 'LIMIT_IF_TOUCHED'
+    MARKET_IF_TOUCHED = 'MARKET_IF_TOUCHED'
 
 
 @unique
@@ -73,6 +75,11 @@ class SecurityType(Enum):
 class OrderSide(Enum):
     BUY = 'BUY'
     SELL = 'SELL'
+
+@unique
+class OrderIdType(Enum):
+    CLIENT = 'CLIENT'
+    SNB = 'SNB'
 
 
 @unique
