@@ -176,6 +176,9 @@ class TradeInterface(object):
         :param order_type: 订单类型，参见：数据字典OrderType
         :param tif: 订单有效期，参见：数据字典TimeInForce
         :param force_only_rth: 是否仅限盘中交易
+        :param stop_price: 触发价
+        :param parent: 父订单 ID
+        :param order_id_type: 订单 ID 类型, CLIENT 默认值/代表API订单ID，SNB代表雪盈订单ID
         :return:
         {
             "result_code": "60000",
