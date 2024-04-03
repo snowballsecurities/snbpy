@@ -141,14 +141,190 @@ class TradeInterface(object):
     @abc.abstractmethod
     def get_order_list(self, page: int = 1, size: int = 10, status: str = None,
                        security_type: str = "STK,OPT,WAR,IOPT,FUT") -> HttpResponse:
+        """
+        :param page: 页码
+        :param size: 每页大小
+        :param status: 订单状态
+        :param security_type: 证券类型，多个类型用逗号分隔，参见数据字典：SecurityType
+        :return:
+            {
+                "msg": null,
+                "result_code": "60000",
+                "result_data": {
+                    "count": 3,
+                    "items": [
+                    {
+                        "account_id": "DU123456",
+                        "average_price": 0.0,
+                        "children": null,
+                        "currency": "HKD",
+                        "exchange": "HKEX",
+                        "filled_quantity": 0,
+                        "group_id": null,
+                        "id": "",
+                        "memo": "",
+                        "order_time": 1711419658000,
+                        "order_type": "STOP_LIMIT",
+                        "parent": null,
+                        "price": 100.0,
+                        "quantity": 100,
+                        "rth": true,
+                        "secondary_order_id": "004c4d6b.000130f7.66010d09.0002",
+                        "security_type": "STK",
+                        "side": "BUY",
+                        "snb_order_id": "5588468353849584",
+                        "status": "WITHDRAWED",
+                        "stop_price": null,
+                        "symbol": "00700",
+                        "tif": "DAY"
+                    },
+                    {
+                        "account_id": "DU123456",
+                        "average_price": 0.0,
+                        "children": null,
+                        "currency": "HKD",
+                        "exchange": "HKEX",
+                        "filled_quantity": 0,
+                        "group_id": null,
+                        "id": "1711419657579",
+                        "memo": "",
+                        "order_time": 1711419658000,
+                        "order_type": "STOP_LIMIT",
+                        "parent": null,
+                        "price": 100.0,
+                        "quantity": 100,
+                        "rth": true,
+                        "secondary_order_id": "004c4d6b.000130f7.66010d09.0002",
+                        "security_type": "STK",
+                        "side": "BUY",
+                        "snb_order_id": "5588456391694560",
+                        "status": "WITHDRAWED",
+                        "stop_price": null,
+                        "symbol": "00700",
+                        "tif": "DAY"
+                    },
+                    {
+                        "account_id": "DU123456",
+                        "average_price": 0.0,
+                        "children": null,
+                        "currency": "HKD",
+                        "exchange": "HKEX",
+                        "filled_quantity": 0,
+                        "group_id": null,
+                        "id": "1711361650250",
+                        "memo": "委托单已过期",
+                        "order_time": 1711361650000,
+                        "order_type": "STOP_LIMIT",
+                        "parent": null,
+                        "price": 100.0,
+                        "quantity": 100,
+                        "rth": true,
+                        "secondary_order_id": "004c4d6b.000130f7.6600fbf3.0001",
+                        "security_type": "STK",
+                        "side": "BUY",
+                        "snb_order_id": "5587483178948816",
+                        "status": "EXPIRED",
+                        "stop_price": null,
+                        "symbol": "00700",
+                        "tif": "DAY"
+                    }
+                    ],
+                    "page": 1,
+                    "size": 10
+                }
+            }
+        """
         pass
 
     @abc.abstractmethod
     def get_position_list(self, security_type: str = "STK,OPT,WAR,IOPT,FUT") -> HttpResponse:
+        """
+        持仓查询
+        :param security_type: 证券类型，多个类型用逗号分隔，参见数据字典：SecurityType
+        :return:
+            {
+                "msg": null,
+                "result_code": "60000",
+                "result_data": [
+                    {
+                        "account_id": "DU1234567",
+                        "average_price": 176.4124,
+                        "exchange": "USEX",
+                        "market_price": 152.55,
+                        "position": 378753,
+                        "realized_pnl": 0.0,
+                        "security_type": "STK",
+                        "symbol": "EL"
+                    },
+                    {
+                        "account_id": "DU1234567",
+                        "average_price": 900.0016,
+                        "exchange": "USEX",
+                        "market_price": 892.43,
+                        "position": 100,
+                        "realized_pnl": 0.0,
+                        "security_type": "STK",
+                        "symbol": "NVDA"
+                    }
+                ]
+            }
+        """
         pass
 
     @abc.abstractmethod
     def get_balance(self) -> HttpResponse:
+        """
+        资产查询
+        :return:
+            {
+                "msg": null,
+                "result_code": "60000",
+                "result_data": {
+                    "balance_detail_items": [
+                    {
+                        "cash": 0.0,
+                        "currency": "HKD"
+                    },
+                    {
+                        "cash": 1.011730236E7,
+                        "currency": "AUD"
+                    },
+                    {
+                        "cash": -417.8,
+                        "currency": "SGD"
+                    },
+                    {
+                        "cash": -122502.0,
+                        "currency": "JPY"
+                    },
+                    {
+                        "cash": -7655.33,
+                        "currency": "MXN"
+                    },
+                    {
+                        "cash": 3.157244242E7,
+                        "currency": "USD"
+                    },
+                    {
+                        "cash": 0.0,
+                        "currency": "CNH"
+                    }
+                    ],
+                    "cash": 3.81326952E7,
+                    "currency": "USD",
+                    "current_available_funds": 7.594677383E7,
+                    "current_excess_liquidity": 7.783810665E7,
+                    "current_initial_margin": 1.983666017E7,
+                    "current_maintenance_margin": 1.794532735E7,
+                    "equity_with_loan_value": 9.513816911E7,
+                    "leverage": 0.61,
+                    "net_liquidation_value": 9.593486421E7,
+                    "previous_day_equity_with_loan_value": 9.503638136E7,
+                    "securities_gross_position_value": 5.765125305E7,
+                    "sma": 0.0
+                }
+            }
+        """
         pass
 
     @abc.abstractmethod
@@ -157,6 +333,39 @@ class TradeInterface(object):
 
     @abc.abstractmethod
     def get_order_by_id(self, order_id: str):
+        """
+        :param order_id: 订单 ID
+        :return:
+            {
+                "msg": null,
+                "result_code": "60000",
+                "result_data": {
+                    "account_id": "DU1234567",
+                    "average_price": 0.0,
+                    "children": null,
+                    "currency": "HKD",
+                    "exchange": "HKEX",
+                    "filled_quantity": 0,
+                    "group_id": null,
+                    "id": "1757579",
+                    "memo": "",
+                    "order_time": 1611419658000,
+                    "order_type": "STOP_LIMIT",
+                    "parent": null,
+                    "price": 100.0,
+                    "quantity": 100,
+                    "rth": true,
+                    "secondary_order_id": "004c4dab.000130a7.6601ad09.0002",
+                    "security_type": "STK",
+                    "side": "BUY",
+                    "snb_order_id": "1234567",
+                    "status": "WITHDRAWED",
+                    "stop_price": null,
+                    "symbol": "00700",
+                    "tif": "DAY"
+                }
+            }
+        """
         pass
 
     @abc.abstractmethod
@@ -180,30 +389,97 @@ class TradeInterface(object):
         :param parent: 父订单 ID
         :param order_id_type: 订单 ID 类型, CLIENT 默认值/代表API订单ID，SNB代表雪盈订单ID
         :return:
-        {
-            "result_code": "60000",
-            "msg": null,
-            "result_data": {
-                "memo": "",
-                "id": "sdk000000021",
-                "status": "REPORTED"
-            }
-        }
+            {
+              "msg": null,
+              "result_code": "60000",
+              "result_data": {
+                "id": "1711361650250",
+                "memo": "",
+                "snb_order_id": "5587483178948816",
+                "status": "REPORTED"
+              }
+            }
         """
         pass
 
     @abc.abstractmethod
-    def cancel_order(self, order_id: str, origin_order_id: str) -> HttpResponse:
+    def cancel_order(self, order_id: str, origin_order_id: str, order_id_type: OrderIdType = OrderIdType.CLIENT) -> HttpResponse:
         """
         撤单
         :param order_id: 撤单请求 ID
         :param origin_order_id: 被撤订单 ID
+        :param order_id_type: 订单 ID 类型, CLIENT 默认值/代表API订单ID，SNB代表雪盈订单ID
         :return:
+            {
+              "msg": null,
+              "result_code": "60000",
+              "result_data": {
+                "id": "1711420371",
+                "status": "WITHDRAWED"
+              }
+            }
         """
         pass
 
     @abc.abstractmethod
     def get_transaction_list(self, page=1, size=10, side=None, order_time_min=None, order_time_max=None):
+        """
+        :param page: 页码
+        :param size: 每页大小
+        :param side: 交易方向
+        :param order_time_min: 最小下单时间 毫秒时间戳
+        :param order_time_max: 最大下单时间 毫秒时间戳
+        :return:
+            {
+                "msg": null,
+                "result_code": "60000",
+                "result_data": {
+                    "count": 155,
+                    "items": [
+                    {
+                        "account_id": "DU123456",
+                        "currency": "USD",
+                        "exchange": "USEX",
+                        "id": "",
+                        "order_price": 18547.75,
+                        "order_quantity": 1.0,
+                        "order_time": 1711432599000,
+                        "order_type": "LIMIT",
+                        "price": 18547.75,
+                        "quantity": 1.0,
+                        "rth": false,
+                        "security_type": "FUT",
+                        "side": "BUY",
+                        "status": "CONCLUDED",
+                        "symbol": "MNQ2406",
+                        "tif": "DAY",
+                        "trade_time": 1711432771000
+                    },
+                    {
+                        "account_id": "DU123456",
+                        "currency": "USD",
+                        "exchange": "USEX",
+                        "id": "",
+                        "order_price": 0.0066,
+                        "order_quantity": 1.0,
+                        "order_time": 1711331475000,
+                        "order_type": "LIMIT",
+                        "price": 0.0066,
+                        "quantity": 1.0,
+                        "rth": false,
+                        "security_type": "FUT",
+                        "side": "BUY",
+                        "status": "CONCLUDED",
+                        "symbol": "6J2404",
+                        "tif": "DAY",
+                        "trade_time": 1711331530000
+                    }
+                    ],
+                    "page": 1,
+                    "size": 2
+                }
+            }
+        """
         pass
 
 
@@ -250,6 +526,18 @@ class SnbHttpClient(SnbApiClient, TradeInterface):
         return request.generate_params()
 
     def login(self) -> HttpResponse:
+        """
+        登录
+        :return
+            {
+              "msg": null,
+              "result_code": "60000",
+              "result_data": {
+                "access_token": "OP3DebyK9543c5Pz5wdtoOKa9XcayUWn",
+                "expiry_time": 1711451636344
+              }
+            }
+        """
         login_request = AccessTokenRequest(self._config.account, self._config.key)
         logger.debug("login request: %s", login_request)
         response = self.execute(login_request)
