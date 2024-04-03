@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "snbpy"
-version = "1.0.5"
+version = "1.0.6"
 authors = [
   { name="SNB", email="service@xueqiu.com" },
   { name="yangjie", email="yangjie@xueqiu.com" },
