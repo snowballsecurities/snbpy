@@ -9,7 +9,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='snbpy',
 
-    version='1.0.2',
+    version='1.0.6',
 
     description='snbpy',
 

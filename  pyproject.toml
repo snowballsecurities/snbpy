@@ -1,0 +1,40 @@
+[build-system]
+requires = [
+    "setuptools>=61.0",
+    "wheel",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "snbpy"
+version = "1.0.6"
+authors = [
+  { name="SNB", email="service@xueqiu.com" },
+  { name="yangjie", email="yangjie@xueqiu.com" },
+]
+description = "snbpy"
+readme = "README.md"
+requires-python = ">=3"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers:,
+    "Topic :: Software Development :: Build Tools",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3 :: Only",
+]
+
+dependencies = [
+  "requests>=2.23.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/snowballsecurities/snbpy"
+Issues = "https://github.com/snowballsecurities/snbpy/issues"
+
