@@ -8,7 +8,7 @@ import requests
 
 from snbpy.common.constant.exceptions import ApiExecuteException, API_EXCEPTION, TokenInvalid, LOGIN_NEEDED
 from snbpy.common.constant.snb_constant import API_VERSION, HttpMethod, SecurityType, OrderSide, Currency, TimeInForce, \
-    OrderType, OrderIdType
+    OrderType, OrderIdType, TradingHours
 from snbpy.common.domain.request import HttpRequest, AccessTokenRequest, GetOrderListRequest, GetPositionListRequest, \
     GetBalanceRequest, GetSecurityDetailRequest, GetOrderByOrderIdRequest, CancelOrderRequest, PlaceOrderRequest, \
     GetTokenStatusRequest, GetTransactionListRequest
@@ -583,9 +583,9 @@ class SnbHttpClient(SnbApiClient, TradeInterface):
     def place_order(self, order_id: str, security_type: SecurityType, symbol: str, exchange: str,
                     side: OrderSide, currency: Currency, quantity: int, price: float = 0,
                     order_type: OrderType = OrderType.LIMIT, tif: TimeInForce = TimeInForce.DAY,
-                    force_only_rth: bool = True, stop_price: float = 0, parent: str = None, order_id_type: OrderIdType = OrderIdType.CLIENT):
+                    force_only_rth: bool = True, stop_price: float = 0, parent: str = None, order_id_type: OrderIdType = OrderIdType.CLIENT, trading_hours: TradingHours = None):
         place_order_request = PlaceOrderRequest(self._config.account, order_id, security_type, symbol, exchange,
-                                                side, currency, quantity, price, order_type, tif, force_only_rth, stop_price, parent, order_id_type)
+                                                side, currency, quantity, price, order_type, tif, force_only_rth, stop_price, parent, order_id_type, trading_hours)
         response = self.execute(place_order_request)
         return response
 

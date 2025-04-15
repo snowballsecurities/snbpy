@@ -2,7 +2,7 @@ import abc
 import logging
 
 from snbpy.common.constant.exceptions import InvalidParamException, INVALID_ORDER_ID
-from snbpy.common.constant.snb_constant import HttpMethod, OrderSide, SecurityType, OrderType, Currency, TimeInForce, OrderIdType
+from snbpy.common.constant.snb_constant import HttpMethod, OrderSide, SecurityType, OrderType, Currency, TimeInForce, OrderIdType, TradingHours
 from snbpy.common.util.string_utils import StringUtils
 
 logger = logging.getLogger("snbpy")
@@ -148,7 +148,8 @@ class PlaceOrderRequest(HttpRequest):
     def __init__(self, account_id: str, order_id: str, security_type: SecurityType, symbol: str, exchange: str,
                  side: OrderSide, currency: Currency, quantity: int, price: float = 0,
                  order_type: OrderType = OrderType.LIMIT, tif: TimeInForce = TimeInForce.DAY,
-                 force_only_rth: bool = True, stop_price: float = 0, parent: str = None, order_id_type: OrderIdType = OrderIdType.CLIENT):
+                 force_only_rth: bool = True, stop_price: float = 0, parent: str = None, order_id_type: OrderIdType = OrderIdType.CLIENT,
+                 trading_hours: TradingHours = None):
         self._account_id = account_id
         self._order_id = order_id
         self._security_type = security_type
@@ -164,6 +165,7 @@ class PlaceOrderRequest(HttpRequest):
         self._stop_price = stop_price
         self._parent = parent
         self._order_id_type = order_id_type
+        self._trading_hours = trading_hours
 
     def auth(self) -> int:
         return 1
@@ -196,7 +198,8 @@ class PlaceOrderRequest(HttpRequest):
                 "rth": self._force_only_rth,
                 "stop_price": self._stop_price,
                 "parent": self._parent,
-                "order_id_type": self._order_id_type.value
+                "order_id_type": self._order_id_type.value,
+                "trading_hours": self._trading_hours.value if self._trading_hours else ""
                 }
 
 
