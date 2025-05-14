@@ -6,12 +6,6 @@
 
 开发者在接入雪盈证券开发平台之前，需要提前开通雪盈账号。账号开通后，您可以自己的账号ID（以后统称为：account id）作为您账号的唯一标识。
 
-#### 开户地址
-
-[开户链接](https://www.snowballsecurities.com/xy-account-open/phone-verify)
-
-> `https://www.snowballsecurities.com/xy-account-open/phone-verify`
-
 #### 查看账户 ID
 
 登录雪盈证券APP，查找“我的-设置-账号与安全”，即可看到雪盈账号 ID。
@@ -20,9 +14,9 @@
 
 获取自己的 accountId 后可以在雪盈官网-申请 API，来注册开发者信息，注册后将获得您自己的专属密钥（以后统称为：secret key）作为您登录雪盈开发平台的唯一凭证，请妥善保存。
 
-[注册地址](https://www.snowballsecurities.com)
+[注册地址](https://zhs.snowball-x.com/xy-open-api/apply)
 
-> `https://www.snowballsecurities.com`
+> `https://zhs.snowball-x.com/xy-open-api/apply`
 
 ### 引入代码
 
@@ -32,9 +26,9 @@
 
 ##### 测试仓库
 
-`pip install -i https://test.pypi.org/simple/ snbpy==1.0.3`
+`pip install -i https://test.pypi.org/simple/ snbpy==1.0.7`
 
-##### 正式仓库(最新版本1.0.3)
+##### 正式仓库(最新版本1.0.7)
 
 `pip install snbpy`
 
@@ -55,13 +49,17 @@
 | **环境** | **环境名称** | **链接方式**                             | **账号获取**     |
 | -------- | ------------ | ---------------------------------------- | ---------------- |
 | sit      | 测试环境     | `https://sandbox.snbsecurities.com` | 联系雪盈客服获得 |
-| prod     | 正式环境     | `https:// openapi.snbsecurities.com` | 参考1.1和1.2     |
+| prod     | 正式环境     | `https://openapi.snbsecurities.com` | 参考1.1和1.2     |
 
 >  **PORD**  环境中用户账号、资金均为真实账号、资金，所做操作全部真实有效，请**勿**做测试操作。
 
 > SIT 环境的用户账户为模拟账号，资金是虚拟的用于测试验证，测试账号的申请联系雪盈证券 API 服务群的群主。
 
 ## 快速开始
+
+### 文档地址
+
+[文档地址 https://snbpy-doc.readthedocs.io/zh-cn/latest/ ](https://snbpy-doc.readthedocs.io/zh-cn/latest/)
 
 ### 代码概要
 
@@ -240,13 +238,23 @@ token是一串无序加密的字符串，形如: `pwQxtqj3Bl1q3ThX3I5rRJyUyQxffW
 | DAY  | 当日有效   |
 | GTC  | 撤单前有效 |
 
+### TradingHours
+| 名称 | 描述             |
+| ---- |----------------|
+| ONLY_RTH  | 常规交易时间         |
+| NOT_ONLY_RTH  | 常规交易时间，盘前盘后    |
+| OVERNIGHT  | 仅夜盘            |
+| DAY_OVERNIGHT  | 常规交易时间，盘前盘后，夜盘 |
+
 ## 更新日志
 
-| 更新日期   | 更新内容                         |version|
-| ---------- | -------------------------------- |---|
-| 2020-11-24 | 增加更多日志, 增加 OrderID 的非空验证 |1.0.1|
-| 2020-07-08 | 更新至当前最新安装方式与连接方式 | 1.0.0|
-| 2020-06-08 | 初始化更新                       |--|
+| 更新日期       | 更新内容                                                                | version |
+|------------|---------------------------------------------------------------------|---------|
+| 2025-04-15 | 增加 trading hourse 参数（夜盘交易）                                          | 1.0.7   |
+| 2024-04-03 | 大版本更新 [更新日志](https://github.com/snowballsecurities/snbpy/issues/10) | 1.0.6   |
+| 2020-11-24 | 增加更多日志, 增加 OrderID 的非空验证                                            | 1.0.1   |
+| 2020-07-08 | 更新至当前最新安装方式与连接方式                                                    | 1.0.0   |
+| 2020-06-08 | 初始化更新                                                               | --      |
 
 ##  **联系我们**
 

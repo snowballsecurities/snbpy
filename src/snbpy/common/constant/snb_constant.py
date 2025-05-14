@@ -112,3 +112,10 @@ class HttpMethod(Enum):
 class TimeInForce(Enum):
     DAY = 'DAY'
     GTC = 'GTC'
+
+@unique
+class TradingHours(Enum):
+    ONLY_RTH = 'ONLY_RTH'
+    NOT_ONLY_RTH = 'NOT_ONLY_RTH'
+    OVERNIGHT = 'OVERNIGHT'
+    DAY_OVERNIGHT = 'DAY_OVERNIGHT'
